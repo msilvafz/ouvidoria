@@ -1,1 +1,314 @@
-linha 3
+# Integrantes do grupo:
+# Wesley Matheus Santos Silva
+# Kevinn Berliet dos Santos Monteiro
+# Davi Martins Vasconcelos Santos
+# Fernando Luiz Peixe De Aguiar Filho
+# Joao Ricardo Schmidt
+# Luis Eduardo de Oliveira Ramos
+
+
+from operacoesbd import *
+
+conexao = abrirBancoDados('localhost','root','Matheus7123.','ouvidoria_faculdade')
+
+
+listaOuvidoria = ['Problemas com internet lenta', 'Problemas com modem', 'Problemas com pagamento']
+
+opcao = 0
+
+login = 0
+
+while login != 2:
+    print('Bem vindo a ouvidoria JMD')
+    print('[ 1 ] Central de ouvidoria')
+    print()
+    login = int(input('Digite a opção desejada : '))
+    print()
+
+    print('- Para isso vamos precisar de alguns dados: ')
+    nome = input('Por favor, qual seu nome? ')
+    print()
+
+    numeroCelular = int(input('Por favor, digite seu número seguindo o seguinte exemplo: - 839** - '))
+    print()
+    while numeroCelular <= 10000000000 or numeroCelular >= 99999999999:
+        print('Número Inválido')
+        numeroCelular = int(input('Por favor, digite seu número seguindo o seguinte exemplo: - 839** - '))
+        print()
+
+    cpf = int(input('Agora me diga qual seu CPF: '))
+    print()
+    while cpf <= 10000000000 or cpf >= 99999999999:
+        print('CPF não existe')
+        cpf = int(input('Agora me diga qual seu CPF: '))
+        print()
+    print('- Obrigado, entraremos em contato pelo telefone informado para marcar a data de sua assistência técnica.')
+    break
+
+while opcao != 7:
+
+    print()
+    print('Bem-vindo ao sistema de ouvidoria da JMD')
+    print()
+    print('1) Problemas Frequentes (Modem, Internet ou Pagamentos)')
+    print('2) Cadastrar Ocorrência')
+    print('3) Ocorrências Pendentes')
+    print('4) Apagar Ocorrência')
+    print('5) Consultar ocorrência por código')
+    print('6) Listar todas as ocorrências')
+    print('7) Sair')
+    print()
+
+    opcao = int(input('> Digite o número referente ao problema desejado: '))
+
+    if opcao == 1:
+        print()
+        print('1 - Problemas com internet lenta')
+        print('2 - Problemas com modem')
+        print('3 - Problemas com pagamento')
+        print('4 - Voltar ao menu inicial')
+        print()
+
+        EscolhaOcorrencia = int(input('> Caso seu problema esteja listado acima digite o número: '))
+
+        while EscolhaOcorrencia <= 0 or EscolhaOcorrencia > 4:
+            print('Código Inválido!')
+            EscolhaOcorrencia = int(input('> Caso seu problema esteja listado acima digite o número: '))
+            print()
+
+        if EscolhaOcorrencia != 4:
+            insercao = "insert into ouvidoria (tipo,texto) values (%s,%s)"
+            print()
+            dados = ("Reclamação", listaOuvidoria[EscolhaOcorrencia - 1])
+            insertNoBancoDados(conexao, insercao, dados)
+            print('- Ocorrência feita com sucesso, aguarde para ser atendido!')
+
+
+
+    elif opcao == 2:
+        print()
+        print('( 1 ) Reclamações')
+        print('( 2 ) Elogios')
+        print('( 3 ) Sugestões')
+        print()
+
+        categoria = int(input('> Por favor, digite o número da categoria desejada: '))
+        print()
+
+        if categoria == 1:
+            reclamacaoCliente = input('> Certo, com poucas palavras me diga qual sua reclamação: ')
+            insercao = "insert into ouvidoria (tipo,texto) values (%s,%s)"
+            print()
+            dados = ("Reclamação", reclamacaoCliente)
+            insertNoBancoDados(conexao, insercao, dados)
+            print('- Ocorrência feita com sucesso, aguarde para ser atendido!')
+
+        if categoria == 2:
+            elogioCliente = input('> Certo, com poucas palavras me diga qual seu elogio: ')
+            insercao = "insert into ouvidoria (tipo,texto) values (%s,%s)"
+            print()
+            dados = ("Elogio", elogioCliente)
+            insertNoBancoDados(conexao, insercao, dados)
+            print('Ficamos felizes e agradecemos seu feedback! :D ')
+
+        if categoria == 3:
+            sugestaoCliente = input('> Certo, com poucas palavras me diga qual seria sua sugestão: ')
+            insercao = "insert into ouvidoria (tipo,texto) values (%s,%s)"
+            print()
+            dados = ("Sugestão", sugestaoCliente)
+            insertNoBancoDados(conexao, insercao, dados)
+            print('Agradecemos suas sugestões, isso nos ajuda a manter sempre melhor nosso atendimento!')
+
+
+
+    elif opcao == 3:
+        print()
+        print('( 1 ) Reclamações')
+        print('( 2 ) Elogios')
+        print('( 3 ) Sugestões')
+        print()
+
+        ocorrencia = int(input('> Por favor, digite o número da categoria desejada: '))
+        print()
+
+        if ocorrencia == 1:
+            print()
+            print('-> Reclamações pendentes: ')
+            print()
+            consultaReclamacoes = "select * from ouvidoria where tipo = 'Reclamação'"
+            listarReclamacoes = listarBancoDados(conexao, consultaReclamacoes)
+
+            if len(listarReclamacoes) == 0:
+                print('- Não temos reclamações no momento!')
+            else:
+                print('- Lista de reclamações: ')
+                for i in listarReclamacoes:
+                    print('- Tipo: ', i[1])
+                    print('- Texto: ', i[2])
+                    print()
+
+        if ocorrencia == 2:
+            print()
+            print('-> Elogios pendentes: ')
+            print()
+            consultaElogios = "select * from ouvidoria where tipo = 'Elogio'"
+            listarElogios = listarBancoDados(conexao, consultaElogios)
+
+            if len(listarElogios) == 0:
+                print('- Não temos elogios no momento!')
+            else:
+                print('- Lista de elogios: ')
+                for i in listarElogios:
+                    print('- Tipo: ', i[1])
+                    print('- Texto: ', i[2])
+                    print()
+
+        if ocorrencia == 3:
+            print()
+            print('-> Sugestões pendentes: ')
+            print()
+            consultaSugestões = "select * from ouvidoria where tipo = 'Sugestão'"
+            listarSugestões = listarBancoDados(conexao, consultaSugestões)
+
+            if len(listarSugestões) == 0:
+                print('- Não temos sugestões no momento!')
+            else:
+                print('- Lista de sugestões: ')
+                for i in listarSugestões:
+                    print('- Tipo: ', i[1])
+                    print('- Texto: ', i[2])
+                    print()
+
+
+
+    elif opcao == 4:
+        print()
+        print('( 1 ) Reclamações')
+        print('( 2 ) Elogios')
+        print('( 3 ) Sugestões')
+        print()
+
+        apagar = int(input('> Por favor, digite o número da categoria desejada: '))
+        print()
+
+        if apagar == 1:
+            print()
+            print('-> Reclamações pendentes: ')
+            print()
+            consultaReclamacoes = "select * from ouvidoria where tipo = 'Reclamação'"
+            listarReclamacoes = listarBancoDados(conexao, consultaReclamacoes)
+            if len(listarReclamacoes) == 0:
+                print('- Não temos nenhuma reclamação no momento!')
+                print()
+
+            else:
+                print('> Reclamações em aberto: ')
+                print()
+                for i in listarReclamacoes:
+                    print('- ID: ', i[0])
+                    print('- Tipo: ', i[1])
+                    print('- Texto: ', i[2])
+                    print()
+
+                print()
+                apagarReclamacao = int(input('-> Digite o ID da reclamação que deseja apagar: '))
+                print()
+                removerReclamacao = 'delete from ouvidoria where id = %s'
+                dados = (apagarReclamacao,)
+
+                excluirBancoDados(conexao, removerReclamacao, dados)
+                print('- Reclamação removida com sucesso! ')
+
+
+        elif apagar == 2:
+            print()
+            print('-> Elogios pendentes: ')
+            print()
+            consultaElogios = "select * from ouvidoria where tipo = 'Elogio'"
+            listarElogios = listarBancoDados(conexao, consultaElogios)
+            if len(listarElogios) == 0:
+                print('- Não temos nenhum elogio no momento!')
+                print()
+
+            else:
+                print('> Elogios em aberto: ')
+                print()
+                for i in listarElogios:
+                    print('- ID: ', i[0])
+                    print('- Tipo: ', i[1])
+                    print('- Texto: ', i[2])
+                    print()
+
+                print()
+                apagarElogio = int(input('-> Digite o ID do elogio que deseja apagar: '))
+                print()
+                removerElogio = 'delete from ouvidoria where id = %s'
+                dados = (apagarElogio,)
+
+                excluirBancoDados(conexao, removerElogio, dados)
+                print('- Elogio removido com sucesso! ')
+
+
+        elif apagar == 3:
+            print()
+            print('-> Sugestões pendentes: ')
+            print()
+            consultaSugestoes = "select * from ouvidoria where tipo = 'Sugestão'"
+            listarSugestoes = listarBancoDados(conexao, consultaSugestoes)
+            if len(listarSugestoes) == 0:
+                print('- Não temos nenhuma sugestão no momento!')
+                print()
+
+            else:
+                print('> Sugestões em aberto: ')
+                print()
+                for i in listarSugestoes:
+                    print('- ID: ', i[0])
+                    print('- Tipo: ', i[1])
+                    print('- Texto: ', i[2])
+                    print()
+
+                print()
+                apagarSugestao = int(input('-> Digite o ID da sugestão que deseja apagar: '))
+                print()
+                removerSugestao = 'delete from ouvidoria where id = %s'
+                dados = (apagarSugestao,)
+
+                excluirBancoDados(conexao, removerSugestao, dados)
+                print('- Sugestão removida com sucesso! ')
+
+
+    elif opcao == 5:
+        print()
+        print('> Pesquisa pelo Código <')
+        print()
+
+        codigoId = input('- Digite o código da sua ocorrência: ')
+        consultaOcorrenciaPorCodigo = 'select * from ouvidoria where id = ' + codigoId
+
+        listaOcorencias = listarBancoDados(conexao, consultaOcorrenciaPorCodigo)
+        if len(listaOcorencias) == 0:
+            print('Não existe ocorrência com este código')
+        else:
+            for i in listaOcorencias:
+                print('- ID: ', i[0])
+                print('- Tipo: ', i[1])
+                print('- Texto: ', i[2])
+
+    elif opcao == 6:
+        print()
+        print('-> Ocorrências pendentes: ')
+        print()
+        consultarTodasListagens = "select * from ouvidoria"
+        listarTodasOcorrencias = listarBancoDados(conexao, consultarTodasListagens)
+        for i in listarTodasOcorrencias:
+            print('- Tipo: ', i[1])
+            print('- Texto: ', i[2])
+            print()
+
+
+
+
+print('Obrigado, tenha um bom dia!')
+
+encerrarBancoDados(conexao)
