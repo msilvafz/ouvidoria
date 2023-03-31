@@ -1,2 +1,6 @@
-linha 1
-linha 2
+Create table ouvidoria(
+id int auto_increment,
+tipo varchar(100),
+texto varchar(100),
+primary key (id)
+)
