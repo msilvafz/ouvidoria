@@ -1,12 +1,3 @@
-# Integrantes do grupo:
-# Wesley Matheus Santos Silva
-# Kevinn Berliet dos Santos Monteiro
-# Davi Martins Vasconcelos Santos
-# Fernando Luiz Peixe De Aguiar Filho
-# Joao Ricardo Schmidt
-# Luis Eduardo de Oliveira Ramos
-
-
 from operacoesbd import *
 
 conexao = abrirBancoDados('localhost','root','Matheus7123.','ouvidoria_faculdade')
