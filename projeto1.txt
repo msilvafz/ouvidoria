@@ -1,6 +1,6 @@
 Create table ouvidoria(
-id int auto_increment,
-tipo varchar(100),
-texto varchar(100),
-primary key (id)
+ id int auto_increment,
+ tipo varchar(100),
+ texto varchar(100),
+ primary key (id)
 );
