@@ -10,7 +10,7 @@
 * Consultar ocorrência por código ( id )
 * Listar todas ocorrências
 
-## > Table no MSQL <
+## > Table no MySQL <
 
 ```
 Create table ouvidoria(
