@@ -62,11 +62,11 @@ while opcao != 7:
             reclamacaoCliente = input('> Certo, com poucas palavras me diga qual sua reclamação: ')
             inserirOuvidoria(conexao, "Reclamação",reclamacaoCliente)
 
-        if categoria == 2:
+        elif categoria == 2:
             elogioCliente = input('> Certo, com poucas palavras me diga qual seu elogio: ')
             inserirOuvidoria(conexao, "Elogio",elogioCliente)
 
-        if categoria == 3:
+        elif categoria == 3:
             sugestaoCliente = input('> Certo, com poucas palavras me diga qual seria sua sugestão: ')
             inserirOuvidoria(conexao, "Sugestão",sugestaoCliente)
 
@@ -80,11 +80,11 @@ while opcao != 7:
         if ocorrencia == 1:
             listarOuvidoria(conexao, "Reclamação")
 
-        if ocorrencia == 2:
+        elif ocorrencia == 2:
             listarOuvidoria(conexao, "Elogio")
 
 
-        if ocorrencia == 3:
+        elif ocorrencia == 3:
             listarOuvidoria(conexao, "Sugestão")
 
 
